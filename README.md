@@ -6,7 +6,7 @@
 
 <br>
 
-# Sensor de Irrigação FarmTech Solutions
+# Enterprise Challenge - FlexMedia x FIAP
 
 
 ##  Grupo 16
