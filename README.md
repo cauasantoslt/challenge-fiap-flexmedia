@@ -30,7 +30,10 @@ _Uma proposta de totem inteligente com IA, capaz de integrar diferentes tecnolog
 
 - <a href="https://www.linkedin.com/in/andregodoichiovato/">André Godoi</a>
 
+---
+
 ## 📜 Descrição
+Esta seção detalha a proposta de escopo, arquitetura inicial e estratégia de desenvolvimento para o projeto do Totem Inteligente FlexMedia, conforme os requisitos da Sprint 1 do Challenge.
 
 ### 1. Justificativa do Problema
 
@@ -46,7 +49,7 @@ Identificamos quatro frustrações principais que afetam diretamente a experiên
 
 * **Filas e Perda de Tempo:** Os visitantes querem maximizar seu tempo de lazer. A necessidade de **enfrentar longas filas** para tarefas simples—como reservar uma mesa para a família, garantir um lugar no show ou até mesmo pedir um simples drink—gera atrito e quebra a percepção de valor do serviço.
 
-* **Falta de Inclusão e Acessibilidade:** Um ambiente verdadeiramente acolhedor deve ser para todos. A **falta de soluções de acessibilidade** (como suporte a múltiplos idiomas, leitura de tela ou comandos de voz) ainda é uma realidade ignorada por muitas soluções. Isso cria barreiras que dificultam ou impedem que visitantes com deficiência ou necessidades específicas tenham uma experiência equitativa.
+* **Falta de Inclusão e Acessibilidade:** Um ambiente verdadeiramente acolhedor deve ser para todos. A **falta de soluções de acessibilidade** (como suporte a múltiplos idiomas, leitura de tela ou comandos de voz) ainda é uma realidade ignorada por muitas soluções. Isso cria barreiras que dificultam ou impede que visitantes com deficiência ou necessidades específicas tenham uma experiência equitativa.
 
 #### 1.2. Para o Cliente (A Dor da Empresa/Gestão)
 
@@ -56,7 +59,7 @@ Sob a ótica da FlexMedia e seus clientes (a gestão do navio ou museu), as dore
 
 * **Perda de Oportunidades (Receita):** A coleta de dados de engajamento é crucial para o negócio. Sem entender o comportamento do usuário, a empresa **perde inúmeras oportunidades de receita** (upsell). Apenas uma simples coleta de dados poderia identificar potenciais pontos de lucro, como o momento exato de sugerir um pacote de bebidas na piscina, um upgrade no jantar ou um tratamento no spa baseado nas preferências do usuário.
 
-### 2. Descrição da Solução Proposta
+### 2. Descrição da Solução Proposta: O Concierge Pessoal de IA
 
 Para solucionar as dores listadas, propomos o **"Modelo Tango"**, o concierge inteligente da FlexMedia.
 
@@ -83,17 +86,53 @@ O Modo Pessoal resolve diretamente as frustrações do visitante:
 
 #### 2.4. Valor para o Cliente (A Solução de BI e Receita)
 
-A gestão do FlexMedia ganha ferramentas poderosas de gestão:
+A gestão do Cliente da FlexMedia ganha ferramentas poderosas de gestão:
 
 * **Gestão baseada em Dados:** A coleta de dados de interação (anônimos e agregados) é enviada em tempo real para o **BigQuery**.
 * **Dashboards de BI em Tempo Real:** A gestão tem acesso a um dashboard (via Looker Studio) que mostra os mapas de calor de congestionamento e fluxo, permitindo a otimização de staff (como a limpeza).
-* **Upsell Inteligente e Contextual:** A mesma IA que ajuda o usuário agora ajuda a empresa. O sistema identifica o contexto e o perfil do usuário para sugerir um **Upsell inteligente** (e não intrusivo), como uma oferta de spa ou um upgrade de jantar, evitando a "perda de lucros" e agindo em oportunidades reais.
+* **Upsell Inteligente e Contextual:** A mesma IA que ajuda o usuário agora ajuda a empresa. O sistema identifica o contexto e o perfil do usuário para sugerir um **Upsell inteligente** (e não intrusivo), como uma oferta de spa ou um upgrade no jantar, evitando a "perda de lucros" e agindo em oportunidades reais.
+
+### 3. Estratégia de Acessibilidade e Equidade
+
+* **Ponto de Acesso Universal:** A interface terá um "Menu de Acessibilidade" sempre visível (ícone fixo) para ativar Leitor de Tela, Alto Contraste, Controle por Voz e Multi-idioma.
+* **Interação Multimodal:** Suporte completo via Toque (Touchscreen), Voz (Microfone MTM-3201 + Google Speech-to-Text) e Leitor de Tela (TalkBack + Alto-falantes).
+* **Equidade de Acesso:** O "Modo Público Anônimo" (detalhado na Seção 6) garante que o totem é útil para todos, mesmo sem celular ou QR Code.
+
+### 4. Arquitetura da Solução (Hardware e Software)
+
+Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da solução.
+
+#### 4.1. Esboço da Arquitetura (Diagrama)
+**(Responsável: Fabio)**
+
+(Fabio irá adicionar aqui a imagem `arquitetura.png` gerada no diagrams.net e o `wireframe-acessibilidade.png`, explicando visualmente o fluxo.)
+
+#### 4.2. Hardware (Borda / IoT)
+**(Responsável: Amanda)**
+
+(Amanda irá detalhar aqui a escolha do `Totem Tomate MTM-3201`, justificando o uso da Câmera e Microfone embutidos, e explicando o papel do módulo `ESP32` com os sensores `PIR` e `DHT22`.)
 
 #### 4.3. Software (Aplicação)
+**(Responsável: Cauã/Fabio - CONCLUÍDO)**
 
 * **IDE:** `Android Studio`
 * **Linguagem:** `Kotlin`
 * **Justificativa:** O desenvolvimento será nativo Android (usando Kotlin, a linguagem moderna preferida pelo Google) para garantir performance máxima, acesso direto à Câmera e Microfone do totem MTM-3201, e integração otimizada com o ecossistema Google Cloud.
+
+#### 4.4. Nuvem (Backend e IA)
+**(Responsável: Giovanna)**
+
+(Giovanna irá detalhar aqui a escolha dos serviços do Google Cloud: `Cloud Run`, `Firestore`, `BigQuery`, `Gemini` e `Speech-to-Text`.)
+
+### 5. Estratégia de Coleta de Dados
+**(Responsável: Giovanna)**
+
+(Giovanna irá explicar aqui a estratégia de coleta simulada e linkar os arquivos `.json` de exemplo da pasta `/data_examples`.)
+
+### 6. Estratégia de Segurança e Privacidade
+**(Responsável: Roberto)**
+
+(Roberto irá detalhar aqui como os dados são protegidos (HTTPS, Criptografia) e como a LGPD é respeitada através do "Modo Anônimo" e do "opt-in" via QR Code.)
 
 ### 7. Plano de Desenvolvimento (Divisão de Tarefas - Sprint 1)
 
@@ -103,7 +142,7 @@ A gestão do FlexMedia ganha ferramentas poderosas de gestão:
 * **Amanda (Hardware/IoT):** Detalhamento do hardware (4.2) e suas justificativas de acessibilidade.
 * **Roberto (Segurança):** Detalhamento da estratégia de Segurança, Privacidade e Equidade (6).
 
-
+---
 
 ## 📁 Estrutura de pastas
 
