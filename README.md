@@ -119,7 +119,6 @@ Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da s
 * **Justificativa:** O desenvolvimento será nativo Android (usando Kotlin, a linguagem moderna preferida pelo Google) para garantir performance máxima, acesso direto à Câmera e Microfone do totem MTM-3201, e integração otimizada com o ecossistema Google Cloud.
 
 #### 4.4. Nuvem (Backend e IA)
-**(Responsável: Giovanna)**
 Nossa solução utiliza os serviços da Google Cloud Platform (GCP) para garantir alta disponibilidade, segurança e inteligência. A arquitetura conecta o totem MTM-3201 (App Android) e os sensores (`ESP32`) à nuvem através de uma API central.
 
 O fluxo principal é: O usuário interage com o totem, o app Android manda essa informação para a API (hospedada no `Cloud Run`). Essa API conversa com o nosso assistente "Modelo Tango" (rodando no `Vertex AI Gemini`), que processa o pedido e retorna a resposta inteligente. Em paralelo, os dados da interação são salvos no `Firestore` (para uso imediato) e no `BigQuery` (para análises futuras).
