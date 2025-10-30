@@ -39,7 +39,7 @@ Esta seção detalha a proposta de escopo, arquitetura inicial e estratégia de 
 
 A proposta de valor do nosso totem inteligente se baseia na resolução de dores e frustrações reais, tanto para o visitante quanto para a empresa que gerencia o espaço.
 
-#### 1.1. Para o Visitante (A Dor do Usuário)
+#### 1.1. Para o Visitante (Usuário)
 
 Identificamos quatro frustrações principais que afetam diretamente a experiência do visitante:
 
@@ -51,7 +51,7 @@ Identificamos quatro frustrações principais que afetam diretamente a experiên
 
 * **Falta de Inclusão e Acessibilidade:** Um ambiente verdadeiramente acolhedor deve ser para todos. A **falta de soluções de acessibilidade** (como suporte a múltiplos idiomas, leitura de tela ou comandos de voz) ainda é uma realidade ignorada por muitas soluções. Isso cria barreiras que dificultam ou impede que visitantes com deficiência ou necessidades específicas tenham uma experiência equitativa.
 
-#### 1.2. Para o Cliente (A Dor da Empresa/Gestão)
+#### 1.2. Para o Cliente (Empresa/Gestão)
 
 Sob a ótica da FlexMedia e seus clientes (a gestão do navio ou museu), as dores são relacionadas à gestão de dados e perda de receita:
 
@@ -113,7 +113,6 @@ Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da s
 (Amanda irá detalhar aqui a escolha do `Totem Tomate MTM-3201`, justificando o uso da Câmera e Microfone embutidos, e explicando o papel do módulo `ESP32` com os sensores `PIR` e `DHT22`.)
 
 #### 4.3. Software (Aplicação)
-**(Responsável: Cauã/Fabio - CONCLUÍDO)**
 
 * **IDE:** `Android Studio`
 * **Linguagem:** `Kotlin`
@@ -121,13 +120,69 @@ Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da s
 
 #### 4.4. Nuvem (Backend e IA)
 **(Responsável: Giovanna)**
+Nossa solução utiliza os serviços da Google Cloud Platform (GCP) para garantir alta disponibilidade, segurança e inteligência. A arquitetura conecta o totem MTM-3201 (App Android) e os sensores (`ESP32`) à nuvem através de uma API central.
 
-(Giovanna irá detalhar aqui a escolha dos serviços do Google Cloud: `Cloud Run`, `Firestore`, `BigQuery`, `Gemini` e `Speech-to-Text`.)
+O fluxo principal é: O usuário interage com o totem, o app Android manda essa informação para a API (hospedada no `Cloud Run`). Essa API conversa com o nosso assistente "Modelo Tango" (rodando no `Vertex AI Gemini`), que processa o pedido e retorna a resposta inteligente. Em paralelo, os dados da interação são salvos no `Firestore` (para uso imediato) e no `BigQuery` (para análises futuras).
+
+Os serviços utilizados são:
+
+* **Cloud Run:** Hospeda nossa API (backend) principal. Permite escalabilidade automática e garante alta disponibilidade sem gerenciamento de servidores.
+
+* **Vertex AI (Gemini):** É o cérebro do "Modelo Tango". Entende voz e texto, responde de forma personalizada e fornece suporte multi-idioma, garantindo a acessibilidade que definimos na Seção 3.
+
+* **Firestore:** Banco de dados NoSQL usado para guardar dados rápidos da aplicação, como sessões de usuário, preferências de idioma e reservas ativas.
+
+* **BigQuery:** Nosso Data Warehouse. Analisa todos os dados históricos de interação e dos sensores, permitindo à gestão do navio (o cliente) visualizar os dashboards de BI (no Looker Studio).
+
+* **Cloud Storage:** Armazena os arquivos estáticos que o totem precisa exibir, como as imagens da "Galeria de Fotos", vídeos e ícones da interface.
+
+* **Firebase Authentication:** Cuida da segurança e autenticação, gerenciando tanto os administradores do sistema quanto o "Modo Pessoal" (autenticado via QR Code).
 
 ### 5. Estratégia de Coleta de Dados
-**(Responsável: Giovanna)**
+Nossa estratégia de coleta de dados é projetada para respeitar a privacidade do usuário (LGPD) e, ao mesmo tempo, gerar valor analítico para a gestão.
 
-(Giovanna irá explicar aqui a estratégia de coleta simulada e linkar os arquivos `.json` de exemplo da pasta `/data_examples`.)
+Existem dois modos de coleta:
+
+1. **Modo Pessoal (Autenticado):** Quando o usuário escaneia o QR Code, ele ativa um perfil temporário. O sistema coleta dados de interação (buscas, reservas, preferências) ligados a esse perfil para personalizar a experiência.
+
+2. **Modo Anônimo (Padrão):** Não coleta nenhuma informação pessoal identificável. Apenas salva estatísticas gerais e anônimas (ex: "o botão 'mapa' foi clicado 100x hoje") para alimentar os dashboards de BI.
+
+Para simular o pipeline de dados nesta Sprint 1, criamos a pasta `/data_examples`. Os arquivos JSON abaixo simulam os dados que o App Android e os sensores IoT (ESP32) enviarão para a nossa API no Cloud Run.
+
+#### Exemplo 1: `INTERACAO_PAYLOAD.JSON`
+(Simula o que o **App Android** envia após uma interação de voz)
+
+```Json 
+  {
+  "session_id": "sess_10294",
+  "mode": "anonymous",
+  "input_type": "voice",
+  "input_text": "Quais eventos vão acontecer hoje à noite?",
+  "tango_response": "Hoje teremos show de jazz no Deck 3 às 21h.",
+  "timestamp": "2025-10-29T19:42:00Z",
+  "context": {
+    "device": "Totem MTM-3201",
+    "language": "pt-BR",
+    "location": "Deck 5"
+    }
+  }
+```
+#### Exemplo 2: `SENSOR_PAYLOAD.JSON`
+(Simula o que o **Módulo ESP32** envia. Note que o ID do sensor é separado e aponta para o totem que ele serve)
+
+```json
+{
+  "device_id": "ESP32-SENSOR-004",
+  "linked_totem_id": "MTM3201-CRZ-01",
+  "timestamp": "2025-10-29T19:43:00Z",
+  "sensor_data": {
+    "temperature": 23.8,
+    "humidity": 71.4,
+    "presence_detected": true
+  },
+  "location": "Deck 5 - Área de Lazer"
+}
+```
 
 ### 6. Estratégia de Segurança e Privacidade
 **(Responsável: Roberto)**
