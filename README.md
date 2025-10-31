@@ -103,8 +103,26 @@ A gestão do Cliente da FlexMedia ganha ferramentas poderosas de gestão:
 Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da solução.
 
 #### 4.1. Esboço da Arquitetura (Diagrama)
-**(Responsável: Fabio)**
 
+O diagrama abaixo representa o fluxo técnico do Totem Inteligente FlexMedia – "Modelo Tango", desde a interação do visitante até o processamento em nuvem e geração de insights.
+
+A solução integra hardware (Totem MTM-3201 e sensores ESP32), aplicação Android (Kotlin) e serviços na Google Cloud Platform, com o Vertex AI (Gemini) atuando como núcleo de IA conversacional.
+
+Todos os dados são transmitidos com segurança via Cloud Run (API Backend), armazenados em Firestore e BigQuery, e exibidos em dashboards de Looker Studio.
+
+A arquitetura é modular, acessível e totalmente aderente à LGPD, garantindo equidade, anonimização local e governança de dados em tempo real.
+
+*Para ver o fluxograma (diagrama) em tamanho real, [clique neste link](https://drive.google.com/file/d/1gXG1C9nCD_qj7AXG-Ya2hkVu7tJmJ37D/view?usp=sharing).*
+
+![Diagrama da Arquitetura da Solução "Modelo Tango"](assets/diagrama-arquitetura.jpg)
+
+### 🔵🟢 Legenda de Fluxos (Color Code)
+
+As setas no diagrama seguem um código de cores que representa o fluxo de dados e processamento dentro da arquitetura:
+
+* **🔵 Fluxo principal (ida):** Representa o envio de informações do usuário e sensores — desde a interação no Totem até o processamento na nuvem (Cloud Run e Vertex AI).
+* **🟢 Fluxo de retorno (volta):** Indica as respostas da IA (Gemini) e os dados retornados ao Totem ou dashboards (ex: recomendações, textos, voz, BI).
+* **⚫ Cinza Pontilhado (Contexto):** Elementos referenciais (como o ambiente físico), que não trocam dados diretamente, mas contextualizam a operação do sistema.
 (Fabio irá adicionar aqui a imagem `arquitetura.png` gerada no diagrams.net e o `wireframe-acessibilidade.png`, explicando visualmente o fluxo.)
 
 #### 4.2. Hardware (Borda / IoT)
@@ -208,7 +226,7 @@ Para simular o pipeline de dados nesta Sprint 1, criamos a pasta `/data_examples
 ### 7. Plano de Desenvolvimento (Divisão de Tarefas - Sprint 1)
 
 * **Cauã (PM):** Definição do produto (Seções 1 e 2), priorização de Acessibilidade e integração do `README.md`.
-* **Fabio (Arquiteto):** Desenho do diagrama de arquitetura e wireframe do menu de acessibilidade (Seção 4.1).
+* **Fabio (Arquiteto):** Desenho do diagrama de arquitetura da solução (Seção 4.1).
 * **Giovanna (Cloud/Dados):** Detalhamento da arquitetura de nuvem (4.4) e estratégia de dados simulados (5).
 * **Amanda (Hardware/IoT):** Detalhamento do hardware (4.2) e suas justificativas de acessibilidade.
 * **Roberto (Segurança):** Detalhamento da estratégia de Segurança, Privacidade e Equidade (6).
