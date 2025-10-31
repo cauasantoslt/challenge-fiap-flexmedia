@@ -114,7 +114,7 @@ A arquitetura é modular, acessível e totalmente aderente à LGPD, garantindo e
 
 *Para ver o fluxograma (diagrama) em tamanho real, [clique neste link](https://drive.google.com/file/d/1gXG1C9nCD_qj7AXG-Ya2hkVu7tJmJ37D/view?usp=sharing).*
 
-![Diagrama da Arquitetura da Solução "Modelo Tango"](assets/diagrama-arquitetura.jpg)
+![Diagrama da Arquitetura da Solução "Modelo Tango"](assets/diagrama/diagrama-arquitetura.jpg)
 
 ### 🔵🟢 Legenda de Fluxos (Color Code)
 
@@ -123,7 +123,6 @@ As setas no diagrama seguem um código de cores que representa o fluxo de dados 
 * **🔵 Fluxo principal (ida):** Representa o envio de informações do usuário e sensores — desde a interação no Totem até o processamento na nuvem (Cloud Run e Vertex AI).
 * **🟢 Fluxo de retorno (volta):** Indica as respostas da IA (Gemini) e os dados retornados ao Totem ou dashboards (ex: recomendações, textos, voz, BI).
 * **⚫ Cinza Pontilhado (Contexto):** Elementos referenciais (como o ambiente físico), que não trocam dados diretamente, mas contextualizam a operação do sistema.
-(Fabio irá adicionar aqui a imagem `arquitetura.png` gerada no diagrams.net e o `wireframe-acessibilidade.png`, explicando visualmente o fluxo.)
 
 #### 4.2. Hardware (Borda / IoT)
 
@@ -181,12 +180,12 @@ Existem dois modos de coleta:
 
 2. **Modo Anônimo (Padrão):** Não coleta nenhuma informação pessoal identificável. Apenas salva estatísticas gerais e anônimas (ex: "o botão 'mapa' foi clicado 100x hoje") para alimentar os dashboards de BI.
 
-Para simular o pipeline de dados nesta Sprint 1, criamos a pasta `/data_examples`. Os arquivos JSON abaixo simulam os dados que o App Android e os sensores IoT (ESP32) enviarão para a nossa API no Cloud Run.
+Para simular o pipeline de dados nesta Sprint 1, os blocos de código JSON abaixo representam os dados que o App Android e os sensores IoT (ESP32) enviarão para a nossa API no Cloud Run.
 
 #### Exemplo 1: `INTERACAO_PAYLOAD.JSON`
 (Simula o que o **App Android** envia após uma interação de voz)
 
-```Json 
+```json 
   {
   "session_id": "sess_10294",
   "mode": "anonymous",
@@ -219,9 +218,26 @@ Para simular o pipeline de dados nesta Sprint 1, criamos a pasta `/data_examples
 ```
 
 ### 6. Estratégia de Segurança e Privacidade
-**(Responsável: Roberto)**
 
-(Roberto irá detalhar aqui como os dados são protegidos (HTTPS, Criptografia) e como a LGPD é respeitada através do "Modo Anônimo" e do "opt-in" via QR Code.)
+A solução "Modelo Tango" foi estruturada com foco total em segurança, privacidade e transparência, alinhando-se às diretrizes da Lei Geral de Proteção de Dados (LGPD).
+
+#### 6.1. Proteção de Dados (em Trânsito e Repouso)
+* **Dados em Trânsito:** Toda a comunicação entre o totem (App Android e ESP32) e os serviços em nuvem (API no Cloud Run) é feita **exclusivamente por conexões criptografadas (HTTPS/TLS 1.3)**, evitando interceptações.
+* **Dados em Repouso:** Os dados pessoais (como as preferências do Modo Pessoal) são **armazenados criptografados no Firestore**. Os serviços de nuvem (GCP) e backups também são criptografados por padrão.
+* **Autenticação:** O acesso é protegido pelo **Firebase Authentication**, que gerencia a autenticação segura de administradores (com RBAC) e dos usuários no Modo Pessoal.
+
+#### 6.2. Modos de Operação e Minimização de Dados (LGPD)
+O sistema foi desenhado com base no princípio da minimização de dados, operando em dois modos distintos:
+
+* **Modo Anônimo (Padrão):** Não coleta dados pessoais. São registradas apenas informações técnicas e estatísticas, como número de interações, comandos mais utilizados e dados de sensores (temperatura, umidade e presença).
+* **Modo Pessoal (Opt-in):** Ativado quando o usuário escaneia um QR Code, criando um perfil temporário. Os dados são armazenados criptografados e excluídos automaticamente após o término da sessão. O usuário pode encerrar o modo pessoal a qualquer momento, preservando total controle sobre suas informações.
+
+#### 6.3. Governança e Transparência
+Para garantir total conformidade com a LGPD, o sistema segue práticas rigorosas de governança:
+* Consentimento explícito e informado para uso do modo pessoal;
+* Política de privacidade acessível diretamente no totem;
+* Controle de acesso baseado em papéis (RBAC) para administradores;
+* Logs de segurança e auditoria monitorados em tempo real via Cloud Logging.
 
 ### 7. Plano de Desenvolvimento (Divisão de Tarefas - Sprint 1)
 
@@ -235,7 +251,18 @@ Para simular o pipeline de dados nesta Sprint 1, criamos a pasta `/data_examples
 
 ## 📁 Estrutura de pastas
 
-## 🔧 Como executar o código
+```sh
+├──Assets
+│  ├── Diagrama
+│  │   └── diagrama-arquitetura.jpg
+│  └── logo-fiap.png
+└── README.md
+```
+
+## 🗃 Histórico de lançamentos
+
+* 0.0.1 - 30/10/2025
+    * Criação do documento, definição de escopo (MVP), arquitetura e plano de desenvolvimento para a Sprint 1.
 
 ## 📋 Licença
 
