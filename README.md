@@ -108,10 +108,27 @@ Esta seção detalha a arquitetura técnica, tecnologias e o fluxo de dados da s
 (Fabio irá adicionar aqui a imagem `arquitetura.png` gerada no diagrams.net e o `wireframe-acessibilidade.png`, explicando visualmente o fluxo.)
 
 #### 4.2. Hardware (Borda / IoT)
-**(Responsável: Amanda)**
 
-(Amanda irá detalhar aqui a escolha do `Totem Tomate MTM-3201`, justificando o uso da Câmera e Microfone embutidos, e explicando o papel do módulo `ESP32` com os sensores `PIR` e `DHT22`.)
+A nossa estratégia de hardware é centrada em uma unidade principal robusta, complementada por um módulo de sensores IoT flexível.
 
+##### Hardware Principal: O Totem
+
+A solução é construída ao redor do **`Totem Tomate MTM-3201`**. A escolha é estratégica por ele ser uma unidade "all-in-one" que já inclui os componentes essenciais para as *features* que definimos:
+
+* **Sistema Android Nativo:** Permite rodar nosso aplicativo (desenvolvido em Kotlin/Android Studio) de forma otimizada e facilita a comunicação com o Google Cloud e nosso assistente "Modelo Tango".
+* **Câmera Integrada:** Fundamental para o "Modo Pessoal", permitindo a leitura do **QR Code** para autenticação.
+* **Microfone e Alto-falantes:** Componentes chave da nossa estratégia de **Acessibilidade**, permitindo os Comandos de Voz e o Leitor de Tela (TalkBack).
+* **Design Robusto:** O design integrado é ideal para o ambiente de alto fluxo de um cruzeiro, facilitando a manutenção.
+
+##### Módulo Auxiliar: Sensores IoT (ESP32)
+
+Para complementar o totem, utilizamos um **módulo auxiliar de IoT**, baseado no `ESP32` e conectado aos seguintes sensores:
+
+* **`ESP32`:** Atua como o "mini-cérebro" dos sensores. Escolhido por seu baixo consumo de energia e conectividade Wi-Fi nativa, ele coleta os dados e os envia para a nuvem.
+* **Sensor `PIR` (Presença):** Usado para detectar a aproximação de um usuário. Isso permite que o totem "acorde" (saia da tela de descanso) e inicie a interação proativamente (ex: "Olá, posso ajudar?"), como visto no `SENSOR_PAYLOAD.JSON`.
+* **Sensor `DHT22/BME280` (Ambiente):** Mede a temperatura e umidade exatas do local. Esses dados são usados para alimentar o "Widget de Clima" no totem e para gerar relatórios de ambiente para a gestão do navio.
+
+Este módulo (ESP32) envia seus dados de sensor diretamente para a nossa API no Cloud Run, que por sua vez alimenta os dashboards de BI, conforme detalhado por completo nas seções `4.4` e `5`.
 #### 4.3. Software (Aplicação)
 
 * **IDE:** `Android Studio`
