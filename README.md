@@ -1,7 +1,7 @@
 # FIAP - Faculdade de Informática e Administração Paulista
 
 <p align="center">
-<a href= "https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
+<a href= "https://www.fiap.com.br/"><img src="./Sprint1/assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
 </p>
 
 <br>
@@ -9,6 +9,12 @@
 # Enterprise Challenge - FlexMedia x FIAP
 
 _Uma proposta de totem inteligente com IA, capaz de integrar diferentes tecnologias, promover personalização e enriquecer a interação dos usuários em ambientes de lazer e comércio._
+
+### 📺 Demonstração Funcional (Sprint 2)
+
+Confira o vídeo de demonstração da solução funcionando (Coleta de Dados, SQL e Dashboard com IA):
+
+[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**](https://youtu.be/Tpl6QYbdapw)
 
 ## Grupo 16
 
@@ -113,8 +119,6 @@ Todos os dados são transmitidos com segurança via Cloud Run (API Backend), arm
 A arquitetura é modular, acessível e totalmente aderente à LGPD, garantindo equidade, anonimização local e governança de dados em tempo real.
 
 *Para ver o fluxograma (diagrama) em tamanho real, [clique neste link](https://drive.google.com/file/d/1gXG1C9nCD_qj7AXG-Ya2hkVu7tJmJ37D/view?usp=sharing).*
-
-![Diagrama da Arquitetura da Solução "Modelo Tango"](assets/diagrama/diagrama-arquitetura.jpg)
 
 ### 🔵🟢 Legenda de Fluxos (Color Code)
 
@@ -252,14 +256,66 @@ Para garantir total conformidade com a LGPD, o sistema segue práticas rigorosas
 ## 📁 Estrutura de pastas
 
 ```sh
-├──Assets
-│  ├── Diagrama
-│  │   └── diagrama-arquitetura.jpg
-│  └── logo-fiap.png
+├── Sprint1
+│   ├── Assets
+│   ├── Diagrama
+│   │   ├── diagrama-arquitetura.jpg
+│   │   └── logo-fiap.png
+│   │
+├── Sprint2
+│   ├── database
+│   │   └── dados_totem.json
+│   │
+│   ├── modules
+│   │   ├── __pycache__
+│   │   ├── __init__.py
+│   │   └── ml_model.py
+│   │
+│   ├── app.py
+│   ├── requirements.txt
+│   └── simulador.py
+│   
 └── README.md
 ```
 
+## 🚀 Instruções de Execução (Sprint 2 - MVP de Dados)
+
+Esta seção detalha como executar o pipeline de dados desenvolvido para a Sprint 2 (Simulação, Banco de Dados, ML e Dashboard).
+
+### 📋 Pré-requisitos
+* Python 3.8 ou superior instalado.
+* Bibliotecas listadas no `requirements.txt`.
+
+### 🔧 Instalação
+1. Clone este repositório.
+2. Navegue até a pasta do projeto.
+3. Instale as dependências:
+   ```bash
+   pip install -r Sprint2/requirements.txt
+   ```
+
+### ▶️ Como Rodar
+O sistema funciona com dois processos simultâneos (Backend e Frontend). Abra dois terminais diferentes e navegue até a pasta Sprint2:
+
+### Terminal 1 (Backend - Simulador): Este script simula o hardware (ESP32), gerando dados de sensores e salvando no banco SQLite local.
+
+```bash
+
+cd Sprint2
+python simulador.py
+```
+Você verá logs como [SENSOR ESP32] Dados Enviados... indicando que o banco está sendo populado.
+
+### Terminal 2 (Frontend - Dashboard): Este comando abre o painel visual no seu navegador.
+```bash
+
+cd Sprint2
+streamlit run app.py
+```
+
 ## 🗃 Histórico de lançamentos
+* 0.2.0 - 26/11/2025
+    * Entrega da Sprint 2: Implementação do MVP de dados com simulador, banco SQL e Dashboard com ML.
 
 * 0.0.1 - 30/10/2025
     * Criação do documento, definição de escopo (MVP), arquitetura e plano de desenvolvimento para a Sprint 1.
