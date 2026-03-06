@@ -10,13 +10,13 @@
 
 _Uma proposta de totem inteligente com IA, capaz de integrar diferentes tecnologias, promover personalização e enriquecer a interação dos usuários em ambientes de lazer e comércio._
 
-### 📺 Demonstração Funcional (Sprint 2)
+### 📺 Demonstração Funcional (Sprint 3)
 
 Confira o vídeo de demonstração da solução funcionando (Coleta de Dados, SQL e Dashboard com IA):
 
-[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**](https://youtu.be/Tpl6QYbdapw)
+[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**]()
 
-## Grupo 16
+## Grupo 66
 
 ## 👨‍🎓 Integrantes:
 
@@ -38,65 +38,36 @@ Confira o vídeo de demonstração da solução funcionando (Coleta de Dados, SQ
 
 ---
 
-## 📜 Descrição
-Esta seção detalha a proposta de escopo, arquitetura inicial e estratégia de desenvolvimento para o projeto do Totem Inteligente FlexMedia, conforme os requisitos da Sprint 1 do Challenge.
+## 📜 Descrição da Sprint 3
+Nesta etapa, consolidamos o **Totem Inteligente Flexmedia** como um sistema integrado e funcional. A Sprint 3 foca na maturidade técnica, conectando o hardware (simulado via Wokwi) a um banco de dados estruturado (SQLite) através de uma API robusta (Flask), culminando em uma análise preditiva via Machine Learning exibida em um Dashboard interativo (Streamlit).
 
-### 1. Justificativa do Problema
+### 1. Arquitetura Consolidada da Solução
+O sistema respeita um pipeline de dados profissional: **Sensor (IoT) $\rightarrow$ API (Backend) $\rightarrow$ Banco de Dados (SQL) $\rightarrow$ Inteligência (ML) $\rightarrow$ Visualização (Dashboard).**
 
-A proposta de valor do nosso totem inteligente se baseia na resolução de dores e frustrações reais, tanto para o visitante quanto para a empresa que gerencia o espaço.
+#### 1.1 Coleta de Dados (Hardware Simulado)
+Utilizamos o simulador **Wokwi** para validar a lógica do sensor ultrassônico **HC-SR04** conectado a um **ESP32**. O sistema detecta a presença de usuários a menos de 60cm do totem e dispara uma requisição HTTP POST contendo os dados da interação.
 
-#### 1.1. Para o Visitante (Usuário)
+#### 1.2 Backend e Armazenamento (Flask & SQLite)
+Desenvolvemos uma API em **Python (Flask)** hospedada localmente no VS Code. 
+* **Validação:** A API valida a integridade dos dados recebidos.
+* **Persistência:** Os dados são salvos em um banco de dados **SQLite**, garantindo a integridade relacional com chaves primárias e registros temporais (timestamps).
 
-Identificamos quatro frustrações principais que afetam diretamente a experiência do visitante:
+#### 1.3 Inteligência Artificial e Machine Learning
+O sistema consome os dados do banco para alimentar um modelo de **Random Forest (Scikit-Learn)**. 
+* **Objetivo:** Prever o nível de engajamento do usuário com base na proximidade da interação.
+* **Métrica:** O dashboard exibe a **Acurácia** do modelo e o **Classification Report**, garantindo a interpretabilidade dos resultados exigida pelo Challenge.
 
-* **Desorientação e Sobrecarga:** Com a correria do dia a dia, os visitantes buscam agilidade. Ao entrar em ambientes complexos (como um cruzeiro, museu ou zoológico) pela primeira vez, a **falta de familiaridade** com o local gera ansiedade. O visitante não sabe onde está, para onde ir e se sente sobrecarregado, prejudicando a experiência logo no início.
+#### 1.4 Dashboard Interativo (Streamlit)
+A interface final apresenta:
+* Fluxo de dados em tempo real.
+* Distribuição estatística de distâncias (Seaborn/Matplotlib).
+* Monitoramento de volume de interações por período.
+* Painel de performance do modelo de Machine Learning.
 
-* **Ruído e Desorganização:** Em locais com múltiplos eventos (shows, palestras, exposições), o visitante **se sente perdido em meio a tantas opções**. A dificuldade em organizar uma agenda pessoal, e que ao mesmo tempo seja agradável para toda a família, transforma o que deveria ser lazer em uma grande "dor de cabeça".
-
-* **Filas e Perda de Tempo:** Os visitantes querem maximizar seu tempo de lazer. A necessidade de **enfrentar longas filas** para tarefas simples—como reservar uma mesa para a família, garantir um lugar no show ou até mesmo pedir um simples drink—gera atrito e quebra a percepção de valor do serviço.
-
-* **Falta de Inclusão e Acessibilidade:** Um ambiente verdadeiramente acolhedor deve ser para todos. A **falta de soluções de acessibilidade** (como suporte a múltiplos idiomas, leitura de tela ou comandos de voz) ainda é uma realidade ignorada por muitas soluções. Isso cria barreiras que dificultam ou impede que visitantes com deficiência ou necessidades específicas tenham uma experiência equitativa.
-
-#### 1.2. Para o Cliente (Empresa/Gestão)
-
-Sob a ótica da FlexMedia e seus clientes (a gestão do navio ou museu), as dores são relacionadas à gestão de dados e perda de receita:
-
-* **Gestão "no Escuro" (Ponto Cego):** A empresa sente a necessidade de ter mais informações sobre o fluxo de seus usuários. Sem dados, a gestão não tem **controle em tempo real** sobre o que acontece no espaço. Problemas como o congestionamento em um deck específico, ou a identificação de áreas que precisam de limpeza imediata, não são resolvidos com agilidade.
-
-* **Perda de Oportunidades (Receita):** A coleta de dados de engajamento é crucial para o negócio. Sem entender o comportamento do usuário, a empresa **perde inúmeras oportunidades de receita** (upsell). Apenas uma simples coleta de dados poderia identificar potenciais pontos de lucro, como o momento exato de sugerir um pacote de bebidas na piscina, um upgrade no jantar ou um tratamento no spa baseado nas preferências do usuário.
-
-### 2. Descrição da Solução Proposta: O Concierge Pessoal de IA
-
-Para solucionar as dores listadas, propomos o **"Modelo Tango"**, o concierge inteligente da FlexMedia.
-
-#### 2.1. O Conceito: "Modelo Tango"
-
-Apresentamos o "Modelo Tango", a nossa solução de totem inteligente projetada para ser o assistente de bordo definitivo. Ele utiliza a mais recente **API do Google Gemini** para atuar como um assistente digital equitativo, proativo e que "abraça a tudo e todos", transformando a visita em uma experiência fluida e personalizada.
-
-#### 2.2. Arquitetura Modular: A Solução para Equidade
-
-A arquitetura é modular e projetada para a equidade, respeitando a privacidade e a necessidade do usuário.
-
-* **Modo Público (Anônimo):** Para ser usado por "qualquer pessoa", não é necessário cadastro. É a solução ideal para consultas rápidas e para garantir que ninguém seja excluído. Funções incluem: Mapas gerais, Agenda de Eventos do dia, e FAQs.
-
-* **Modo Pessoal (Autenticado):** Mediante um "opt-in" de privacidade, o usuário escaneia seu **QR Code** (do app do cruzeiro) na câmera do totem. Isso destrava uma "infinidade de opções" e personaliza 100% da experiência.
-
-#### 2.3. Valor para o Visitante
-
-O Modo Pessoal resolve diretamente as frustrações do visitante:
-
-* **Navegação Inteligente:** O totem fornece um mapa dinâmico com a localização "Onde Estou" e calcula a melhor rota para o destino.
-* **Agenda Personalizada com IA:** A agenda se torna interativa. Caso o cliente tenha dúvida, o Gemini oferece recomendações de eventos e atividades baseadas em seus gostos e histórico.
-* **Fim das Filas (Reservas Instantâneas):** As "filas enormes" são substituídas por um sistema de Reservas Instantâneas, permitindo ao usuário garantir seu lugar em restaurantes ou shows com poucos cliques.
-* **Acessibilidade por Design:** A solução é inclusiva. Um **"Menu de Acessibilidade"** dedicado oferece controle total por **Comandos de Voz**, **Leitor de Tela** (TalkBack), **Tradução Multi-idioma** e fontes ampliadas.
-
-#### 2.4. Valor para o Cliente (A Solução de BI e Receita)
-
-A gestão do Cliente da FlexMedia ganha ferramentas poderosas de gestão:
-
-* **Gestão baseada em Dados:** A coleta de dados de interação (anônimos e agregados) é enviada em tempo real para o **BigQuery**.
-* **Dashboards de BI em Tempo Real:** A gestão tem acesso a um dashboard (via Looker Studio) que mostra os mapas de calor de congestionamento e fluxo, permitindo a otimização de staff (como a limpeza).
-* **Upsell Inteligente e Contextual:** A mesma IA que ajuda o usuário agora ajuda a empresa. O sistema identifica o contexto e o perfil do usuário para sugerir um **Upsell inteligente** (e não intrusivo), como uma oferta de spa ou um upgrade no jantar, evitando a "perda de lucros" e agindo em oportunidades reais.
+### 2. Estratégia de Segurança e Integridade
+* **Validação de Entrada:** A API descarta pacotes malformados ou incompletos.
+* **Segurança Conceitual:** Implementação de headers customizados (`User-Agent` e `ngrok-skip-browser-warning`) para controle de acesso e bypass de segurança em túneis de desenvolvimento.
+* **Integridade:** Uso de SQLAlchemy para garantir que apenas dados válidos sejam persistidos no SQLite.
 
 ### 3. Estratégia de Acessibilidade e Equidade
 
