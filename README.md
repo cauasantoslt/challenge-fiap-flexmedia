@@ -10,13 +10,12 @@
 
 _Uma proposta de totem inteligente com IA, capaz de integrar diferentes tecnologias, promover personalização e enriquecer a interação dos usuários em ambientes de lazer e comércio._
 
-### 📺 Demonstração Funcional (Sprint 3)
+### 📺 Demonstração Funcional (Sprint 4 - IA e Interação)
+Confira o vídeo final demonstrando o aplicativo Android nativo, reconhecimento de voz, integração com a IA Gemini e o Dashboard rodando via Docker:
 
-Confira o vídeo de demonstração da solução funcionando (Coleta de Dados, SQL e Dashboard com IA):
+[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**](INSERIR_LINK_DO_YOUTUBE_AQUI)
 
-[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**]()
-
-## Grupo 66
+## Grupo 
 
 ## 👨‍🎓 Integrantes:
 
@@ -38,10 +37,44 @@ Confira o vídeo de demonstração da solução funcionando (Coleta de Dados, SQ
 
 ---
 
-## 📜 Descrição da Sprint 3
-Nesta etapa, consolidamos o **Totem Inteligente Flexmedia** como um sistema integrado e funcional. A Sprint 3 foca na maturidade técnica, conectando o hardware (simulado via Wokwi) a um banco de dados estruturado (SQLite) através de uma API robusta (Flask), culminando em uma análise preditiva via Machine Learning exibida em um Dashboard interativo (Streamlit).
+## 📜 Descrição da Sprint 4 (Entrega Final)
+Nesta etapa final, o protótipo evoluiu para uma solução digital interativa completa, incorporando Inteligência Artificial Generativa, processamento de linguagem natural e infraestrutura em nuvem, garantindo acessibilidade, resiliência e geração de métricas analíticas.
 
-### 1. Arquitetura Consolidada da Solução
+### 1. Inteligência Artificial Generativa (Gemini)
+Integramos a API do **Google Gemini 2.5 Flash** ao nosso backend (Flask). A IA foi instruída com um *system prompt* específico para atuar como assistente corporativa do Totem, garantindo respostas concisas, educadas e sem formatações incompatíveis com a leitura por voz.
+
+### 2. Acessibilidade e Interação Multimodal (App Android)
+Desenvolvemos um aplicativo cliente nativo em **Kotlin** que substitui a interface simulada:
+* **Voz para Texto (STT):** Uso do `SpeechRecognizer` para captar comandos de voz do visitante.
+* **Texto para Voz (TTS):** Uso do `TextToSpeech` nativo com ajustes de pitch e velocidade (buscando vozes Premium de rede) para responder ao usuário com naturalidade.
+* **Visão Computacional:** Implementação do **Google ML Kit** para detecção facial via câmera frontal, tirando o totem do modo *Standby* automaticamente ao detectar um visitante.
+* **Resiliência (Offline Fallback):** Verificação de status de rede (`ConnectivityManager`). Caso o Wi-Fi caia, o totem responde de forma autônoma (informando a falha) sem travar a aplicação.
+
+### 3. Infraestrutura e Persistência (Docker)
+O servidor Flask foi refatorado para operar em um ambiente conteinerizado:
+* **Docker:** Criação de `Dockerfile` e `requirements.txt`, isolando o ambiente (Python 3.11-slim) e deixando a API pronta para *deploy* em nuvem (OCI, GCP ou AWS).
+* **Memória Permanente:** Implementação de persistência em arquivo (`metricas.json`), garantindo que interações diárias e métricas de latência não sejam perdidas caso o servidor ou contêiner reinicie.
+
+### 4. Relatório Analítico e Machine Learning Clássico
+Atendendo aos requisitos de dados estruturados e avaliação de desempenho, desenvolvemos um Jupyter Notebook (`analise_totem_ia.ipynb`):
+* **Dataset Simulado:** Geração de 500 registros de visitantes (idade, idioma, período, tempo de interação).
+* **Modelo Preditivo:** Treinamento de um classificador **Random Forest** (Scikit-Learn) com divisão de Treino (80%) e Teste (20%) para classificar e recomendar atrações.
+* **Métricas e Gráficos:** Geração de relatórios de Acurácia, *Classification Report*, Matriz de Confusão e visualizações analíticas (distribuição de idiomas, perfil de idade, tempo de uso) geradas via Seaborn/Matplotlib.
+
+### 🔌 Integração IoT: Suporte a Hardware e Sensores (ESP32)
+
+O ecossistema do **TotemFlexmedia** foi projetado com uma arquitetura *IoT-ready*. Embora a aplicação Android e o processamento de IA operem de forma independente e autônoma, o backend (Flask/Docker) possui endpoints dedicados e escaláveis para comunicação direta com módulos de hardware externo, especificamente o **ESP32**.
+
+Essa integração permite que o totem transcenda a interação digital e reaja ativamente ao ambiente físico:
+
+* **Detecção de Presença Externa (PIR / HC-SR04):** O ESP32 pode ser posicionado estrategicamente para detectar a aproximação de visitantes a metros de distância. Ao detectar movimento, o microcontrolador envia um payload (JSON) via requisição `POST` para a API, que pode acionar gatilhos para tirar o Totem do modo *Standby* de forma proativa.
+* **Telemetria Ambiental (DHT22 / BME280):** Coleta de dados físicos do ambiente (temperatura, umidade e luminosidade). Esses dados são repassados ao nosso servidor, armazenados no banco de dados e podem ser utilizados para atualizar widgets climáticos na tela do Android ou gerar relatórios para a gestão do local.
+* **Comunicação Desacoplada:** O ESP32 atua como um nó de borda (*Edge Computing*). Ele não interfere no ciclo de vida do aplicativo Android; ambos se comunicam através da nossa API centralizada, garantindo que o sistema continue resiliente mesmo em caso de falhas de hardware ou desconexão do sensor.
+
+Essa infraestrutura garante que a solução atenda não apenas aos requisitos de software e Inteligência Artificial, mas também atue como um dispositivo sensoriado plenamente integrado ao mundo físico.
+
+
+## 1. Arquitetura Consolidada da Solução
 O sistema respeita um pipeline de dados profissional: **Sensor (IoT) $\rightarrow$ API (Backend) $\rightarrow$ Banco de Dados (SQL) $\rightarrow$ Inteligência (ML) $\rightarrow$ Visualização (Dashboard).**
 
 #### 1.1 Coleta de Dados (Hardware Simulado)
@@ -121,6 +154,7 @@ Para complementar o totem, utilizamos um **módulo auxiliar de IoT**, baseado no
 * **Sensor `DHT22/BME280` (Ambiente):** Mede a temperatura e umidade exatas do local. Esses dados são usados para alimentar o "Widget de Clima" no totem e para gerar relatórios de ambiente para a gestão do navio.
 
 Este módulo (ESP32) envia seus dados de sensor diretamente para a nossa API no Cloud Run, que por sua vez alimenta os dashboards de BI, conforme detalhado por completo nas seções `4.4` e `5`.
+
 #### 4.3. Software (Aplicação)
 
 * **IDE:** `Android Studio`
@@ -227,31 +261,66 @@ Para garantir total conformidade com a LGPD, o sistema segue práticas rigorosas
 ## 📁 Estrutura de pastas
 
 ```sh
-├── Sprint1
-│   ├── Assets
-│   ├── Diagrama
-│   │   ├── diagrama-arquitetura.jpg
-│   │   └── logo-fiap.png
-│   │
-├── Sprint2
-│   ├── database
-│   │   └── dados_totem.json
-│   │
-│   ├── modules
-│   │   ├── __pycache__
-│   │   ├── __init__.py
-│   │   └── ml_model.py
-│   │
-│   ├── app.py
-│   ├── requirements.txt
-│   └── simulador.py
+├── Android_App
+│   └── TotemFlexmedia
+│       └── app
+│           └── src
+│               └── main
+│                   └── java
+│                       └── com
+│                           └── fiap
+│                               └── totemflexmedia
+│                                   ├── MainActivity.java
+│                                   ├── ApiClient.java
+│                                   ├── SpeechRecognizer.java
+│                                   └── ...
 │   
+├── assets
+│   ├── diagrama-arquitetura.jpg
+│   ├── logo-fiap.png
+│   └── logo-flexmedia.png
+│
+├── Backend_Docker
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── metricas.json
+│   └── requirements.txt
+│
+├── Data_Science
+│   └── analise_totem_ia.ipynb
+│    
+├── SystemESP32
+│   └── SystemESP32.ino
+│    
 └── README.md
 ```
 
-## 🚀 Instruções de Execução (Sprint 2 - MVP de Dados)
+## 🚀 Instruções de Execução (Sprint 4 - IA e Docker)
 
-Esta seção detalha como executar o pipeline de dados desenvolvido para a Sprint 2 (Simulação, Banco de Dados, ML e Dashboard).
+### 1. Backend API (Docker)
+Navegue até a pasta do backend (`Backend_Docker`) e certifique-se de ter o Docker instalado:
+1. Construa a imagem:
+   ```bash
+   docker build -t totem-backend .
+
+2. Rode o contêiner em segundo plano:
+
+```bash
+docker run -d -p 5000:5000 --name totem-server totem-backend
+```
+
+(O servidor estará escutando na porta 5000 local. Para parar o serviço, utilize o comando `docker stop totem-server`).
+
+2. App Android
+Abra a pasta `Android_App` no Android Studio, aguarde a sincronização do Gradle e execute o projeto em um emulador ou dispositivo físico conectado (com permissões de câmera e microfone habilitadas).
+
+3. Relatório Analítico de Machine Learning
+Navegue até a pasta `Data_Science` e abra o arquivo Jupyter:
+
+```Bash
+jupyter notebook analise_totem_ia.ipynb
+```
+Execute as células sequencialmente para gerar o dataset simulado, treinar o modelo Random Forest e visualizar as métricas de acurácia e gráficos do Relatório Analítico.
 
 ### 📋 Pré-requisitos
 * Python 3.8 ou superior instalado.
@@ -265,28 +334,15 @@ Esta seção detalha como executar o pipeline de dados desenvolvido para a Sprin
    pip install -r Sprint2/requirements.txt
    ```
 
-### ▶️ Como Rodar
-O sistema funciona com dois processos simultâneos (Backend e Frontend). Abra dois terminais diferentes e navegue até a pasta Sprint2:
-
-### Terminal 1 (Backend - Simulador): Este script simula o hardware (ESP32), gerando dados de sensores e salvando no banco SQLite local.
-
-```bash
-
-cd Sprint2
-python simulador.py
-```
-Você verá logs como [SENSOR ESP32] Dados Enviados... indicando que o banco está sendo populado.
-
-### Terminal 2 (Frontend - Dashboard): Este comando abre o painel visual no seu navegador.
-```bash
-
-cd Sprint2
-streamlit run app.py
-```
 
 ## 🗃 Histórico de lançamentos
+* 0.4.0 - 07/04/2026
+    * Implementação do MVP de IA com Docker, App Android e Relatório Analítico de Machine Learning.
+* 0.3.0 - 26/11/2025
+    * Garantir robustez, segurança e integração de todos os módulos para entrega final.
+
 * 0.2.0 - 26/11/2025
-    * Entrega da Sprint 2: Implementação do MVP de dados com simulador, banco SQL e Dashboard com ML.
+    * Implementação do MVP de dados com simulador, banco SQL e Dashboard com ML.
 
 * 0.0.1 - 30/10/2025
     * Criação do documento, definição de escopo (MVP), arquitetura e plano de desenvolvimento para a Sprint 1.
