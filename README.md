@@ -1,7 +1,7 @@
 # FIAP - Faculdade de Informática e Administração Paulista
 
 <p align="center">
-<a href= "https://www.fiap.com.br/"><img src="./Sprint1/assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
+<a href= "https://www.fiap.com.br/"><img src="./assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
 </p>
 
 <br>
@@ -13,7 +13,7 @@ _Uma proposta de totem inteligente com IA, capaz de integrar diferentes tecnolog
 ### 📺 Demonstração Funcional (Sprint 4 - IA e Interação)
 Confira o vídeo final demonstrando o aplicativo Android nativo, reconhecimento de voz, integração com a IA Gemini e o Dashboard rodando via Docker:
 
-[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**](INSERIR_LINK_DO_YOUTUBE_AQUI)
+[**CLIQUE AQUI PARA ASSISTIR AO VÍDEO NO YOUTUBE**](https://youtu.be/5V14BnO7uIc)
 
 ## Grupo 
 
